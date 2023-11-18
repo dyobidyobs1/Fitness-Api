@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
 from .serializers import UserSerializer
+from .models import *
 
 @api_view(['POST'])
 def login(request):
@@ -22,9 +23,10 @@ def login(request):
 @api_view(['POST'])
 def register(request):
     serializerUser = UserSerializer(data=request.data)
+    print(serializerUser)
     if serializerUser.is_valid():
         serializerUser.save()
-        user = User.objects.get(username=request.data['username'])
+        user = CustomUser.objects.get(username=request.data['username'])
         user.set_password(request.data['password'])
         user.save()
         token = Token.objects.create(user=user)
