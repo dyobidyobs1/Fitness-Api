@@ -9,3 +9,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'password', 'email', 'gender', 'birth_date']
+
+    
+
+class ExcerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = "__all__"

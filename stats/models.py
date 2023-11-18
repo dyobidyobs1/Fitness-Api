@@ -16,10 +16,23 @@ def create_rand_id():
 
 class CustomUser(AbstractUser):
     GENDER = (
-        ("M", "Male"),
-        ("F", "Female"),
+        ("Male", "Male"),
+        ("Female", "Female"),
     )
 
-    gender = models.CharField(max_length=1, choices=GENDER, null=True, blank=True)
+    gender = models.CharField(max_length=50, choices=GENDER, null=True, blank=True)
     birth_date = models.CharField(max_length=50, null=True, blank=True)
 
+
+
+class Exercise(models.Model):
+    exercise_name = models.CharField(max_length=100, null=True, blank=True)
+    exp_gain = models.IntegerField(null=True, blank=True)
+    sets = models.IntegerField(null=True, blank=True)
+    reps = models.IntegerField(null=True, blank=True)
+    description = models.TextField()
+    image = models.ImageField(upload_to='uploads/excercise', blank=True, null=True)
+
+
+    def __str__(self):
+        return f"{self.exercise_name}"

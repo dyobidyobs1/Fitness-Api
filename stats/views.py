@@ -8,12 +8,15 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
-from .serializers import UserSerializer
+from .serializers import *
 from .models import *
+
+from random import randint
+
 
 @api_view(['POST'])
 def login(request):
-    user = get_object_or_404(User, username=request.data['username'])
+    user = get_object_or_404(CustomUser, username=request.data['username'])
     if not user.check_password(request.data['password']):
          return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
     token, created = Token.objects.get_or_create(user=user)
@@ -39,3 +42,19 @@ def register(request):
 def test_token(request):
     return Response("passed! {}".format(request.user.username))
 
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def exercise(request):
+    random_excercise = []
+    serializerExercise =  ExcerciseSerializer(Exercise.objects.order_by('?')[:3], many=True)
+    # for i in range(0, 10):
+    #     if not serializerExercise.data in random_excercise:
+    #         random_excercise.append(serializerExercise.data)
+    #     if len(random_excercise) == 3:
+    #         continue
+    if serializerExercise:
+        return Response({"exercise" : serializerExercise.data})
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
