@@ -39,3 +39,5 @@ class UserAdminConfig(UserAdmin):
 
 admin.site.register(CustomUser, UserAdminConfig)
 admin.site.register(Exercise)
+admin.site.register(Stats)
+admin.site.register(History)

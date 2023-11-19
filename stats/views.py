@@ -47,7 +47,6 @@ def test_token(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def exercise(request):
-    random_excercise = []
     serializerExercise =  ExcerciseSerializer(Exercise.objects.order_by('?')[:3], many=True)
     # for i in range(0, 10):
     #     if not serializerExercise.data in random_excercise:
@@ -58,3 +57,63 @@ def exercise(request):
         return Response({"exercise" : serializerExercise.data})
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET','POST'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def stats(request):
+    stats, created = Stats.objects.get_or_create(user=request.user)
+    serializerExercise =  StatsSerializer(stats)
+    if serializerExercise:
+        return Response({"stats" : serializerExercise.data})
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+
+@api_view(['POST', 'GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def profile(request):
+    user = CustomUser.objects.get(username=request.user.username)
+    if request.method == 'POST':
+        serializerUser = ProfileSerializer(instance=user, data=request.data)
+        print(serializerUser)
+        if serializerUser.is_valid():
+            serializerUser.save()
+            return Response({'user': serializerUser.data})
+    else:
+        serializerUser =  UserSerializer(instance=user)
+        stats = Stats.objects.get(user=request.user)
+        if serializerUser:
+            levelup = StatsSerializer(stats)
+            return Response({"profile" : serializerUser.data, "level": levelup.data['current_level']})
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(serializerUser.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST', 'GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def history(request):
+    stats, created = Stats.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        serializerHistory = HistorySerializer(data=request.data)
+        print(serializerHistory)
+        if serializerHistory.is_valid():
+            done_excercise = serializerHistory.save(user=request.user)
+            print(stats)
+            current = stats.current_exp
+            stats.current_exp = current + int(done_excercise.exp_gain)
+            stats.level_up()
+            stats.save()
+            return Response({'user': serializerHistory.data})
+        else:
+            return Response(serializerHistory.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        serializerHistory =  HistorySerializer(History.objects.filter(user=request.user).order_by('-date_created'), many=True)
+        if serializerHistory:
+            return Response({"history" : serializerHistory.data})
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
