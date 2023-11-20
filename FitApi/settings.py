@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--j@9-c4_3vnf-9u60-9)2q5@!t+k&flau=0ro#p9f=s#2usa-f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['c2c9-136-158-11-76.ngrok-free.app', '127.0.0.1']
+ALLOWED_HOSTS = ['4d78-136-158-11-76.ngrok-free.app', '127.0.0.1']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "cloudinary",
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular',
     'stats'
 ]
 
@@ -130,8 +131,8 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-CSRF_TRUSTED_ORIGINS = ['https://c2c9-136-158-11-76.ngrok-free.app']
-CORS_ORIGIN_WHITELIST = ['https://c2c9-136-158-11-76.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://4d78-136-158-11-76.ngrok-free.app']
+CORS_ORIGIN_WHITELIST = ['https://4d78-136-158-11-76.ngrok-free.app']
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -143,4 +144,10 @@ CLOUDINARY_STORAGE = {
     "CLOUD_NAME": "dmagk9gck",
     "API_KEY": "964986345641993",
     "API_SECRET": "sDSJ1IXtdVjMrMAkGxABuvS2wmo",
+}
+
+REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS' : 'drf_spectacular.openapi.AutoSchema' }
+
+SPECTACTULAR_SETTINGS = {
+    "TITLE" :  "Fitness API"
 }

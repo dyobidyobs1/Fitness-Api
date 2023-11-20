@@ -28,7 +28,7 @@ class UserAdminConfig(UserAdmin):
                     'password1',
                     'password2',
                     'gender', 
-                    'birth_date'
+                    'birth_date',
                     'is_active',
                     'is_staff',
                 ),

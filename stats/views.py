@@ -64,11 +64,20 @@ def exercise(request):
 @permission_classes([IsAuthenticated])
 def stats(request):
     stats, created = Stats.objects.get_or_create(user=request.user)
-    serializerExercise =  StatsSerializer(stats)
-    if serializerExercise:
-        return Response({"stats" : serializerExercise.data})
+    if request.method == 'POST':
+        serializerExercise = StatsSerializer(instance=stats, data=request.data)
+        print(serializerExercise)
+        if serializerExercise.is_valid():
+            serializerExercise.save()
+            return Response({'stats': serializerExercise.data})
     else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        serializerExercise =  StatsSerializer(stats)
+        if serializerExercise:
+            return Response({"stats" : serializerExercise.data})
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(serializerExercise.errors, status=status.HTTP_400_BAD_REQUEST)
+    
     
 
 @api_view(['POST', 'GET'])
@@ -117,3 +126,18 @@ def history(request):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def leaderboards(request):
+    serializerExercise =  LeaderboardsSerializer(Stats.objects.order_by('-current_level'), many=True)
+    # for i in range(0, 10):
+    #     if not serializerExercise.data in random_excercise:
+    #         random_excercise.append(serializerExercise.data)
+    #     if len(random_excercise) == 3:
+    #         continue
+    if serializerExercise:
+        return Response({"leaderboards" : serializerExercise.data})
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    

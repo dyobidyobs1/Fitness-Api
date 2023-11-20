@@ -25,6 +25,7 @@ class ExcerciseSerializer(serializers.ModelSerializer):
 
 
 class StatsSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Stats
         fields = "__all__"
@@ -34,3 +35,20 @@ class HistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = History
         fields = "__all__"
+
+class LeaderUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'image']
+
+class LeaderboardsSerializer(serializers.ModelSerializer):
+    user = LeaderUserSerializer()
+    
+    class Meta:
+        model = Stats
+        fields = (
+            'user',
+            'current_level',
+        )
+
