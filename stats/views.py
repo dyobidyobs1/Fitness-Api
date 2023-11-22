@@ -3,7 +3,6 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.parsers import MultiPartParser, FormParser
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -49,7 +48,7 @@ def test_token(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def exercise(request):
-    serializerExercise =  ExcerciseSerializer(Exercise.objects.order_by('?')[:4], many=True)
+    serializerExercise =  ExcerciseSerializer(Exercise.objects.order_by('?')[:3], many=True)
     # for i in range(0, 10):
     #     if not serializerExercise.data in random_excercise:
     #         random_excercise.append(serializerExercise.data)
@@ -65,7 +64,7 @@ def exercise(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def stats(request):
-    stats = Stats.objects.get(user=request.user)
+    stats, created = Stats.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         serializerExercise = StatsSerializer(instance=stats, data=request.data)
         print(serializerExercise)
@@ -88,10 +87,9 @@ def stats(request):
 def profile(request):
     user = CustomUser.objects.get(username=request.user.username)
     if request.method == 'POST':
-        print(request.data['image'])
         serializerUser = ProfileSerializer(instance=user, data=request.data)
         print(serializerUser)
-        if serializerUser.is_valid(raise_exception=True):
+        if serializerUser.is_valid():
             serializerUser.save()
             return Response({'user': serializerUser.data})
     else:
