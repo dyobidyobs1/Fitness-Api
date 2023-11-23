@@ -22,8 +22,7 @@ def login(request):
     token, created = Token.objects.get_or_create(user=user)
     serializerUser = UserSerializer(instance=user)
     stats, created = Stats.objects.get_or_create(user=user)
-    if 
-    stats, created = StatsSerializer()
+    stats = StatsSerializer(stats)
     return Response({'token': token.key, 'user': serializerUser.data, 'stats': stats.data})
 
 @api_view(['POST'])
