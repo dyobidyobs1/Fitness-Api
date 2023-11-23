@@ -21,7 +21,9 @@ def login(request):
          return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
     token, created = Token.objects.get_or_create(user=user)
     serializerUser = UserSerializer(instance=user)
-    stats, created = StatsSerializer(Stats.objects.get_or_create(user=user))
+    stats, created = Stats.objects.get_or_create(user=user)
+    if 
+    stats, created = StatsSerializer()
     return Response({'token': token.key, 'user': serializerUser.data, 'stats': stats.data})
 
 @api_view(['POST'])
