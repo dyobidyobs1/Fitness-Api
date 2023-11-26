@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['physicalatk-d0e0fc6e9e7d.herokuapp.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_material.apps.AdminMaterialDashboardConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -163,3 +164,7 @@ REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS' : 'drf_spectacular.openapi.AutoSchema'
 SPECTACTULAR_SETTINGS = {
     "TITLE" :  "Fitness API"
 }
+
+LOGIN_REDIRECT_URL = '/'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
