@@ -163,7 +163,7 @@ def plangenerate(request):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['GET'])
+@api_view(['GET', 'DELETE'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def plan_delete(request, pk):
