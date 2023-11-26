@@ -156,6 +156,8 @@ def plangenerate(request):
         else:
             return Response(serializerGeneratedPlan.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
+        print("Print")
+
         generate = GeneratePlan.objects.get(id=request.data['id'])
         generate.delete()
         return Response({'message': 'Plan is Deleted Successfully'})
