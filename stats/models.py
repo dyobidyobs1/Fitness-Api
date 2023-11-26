@@ -85,7 +85,7 @@ class GeneratePlan(models.Model):
     muscle_group = models.CharField(max_length=500, null=True, blank=True)
     difficulty = models.CharField(max_length=500, null=True, blank=True)
     equipment = models.CharField(max_length=500, null=True, blank=True)
-    instructions = models.CharField(max_length=500, null=True, blank=True)
+    instructions = models.CharField(max_length=2000, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
