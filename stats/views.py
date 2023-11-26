@@ -14,6 +14,12 @@ from .models import *
 from random import randint
 
 
+@api_view(['DELETE'])
+def plan_delete(request, pk):
+    plan = GeneratePlan.objects.get(id=pk)
+    plan.delete()
+    return Response({'delete': "Success"})
+
 @api_view(['POST'])
 def login(request):
     user = get_object_or_404(CustomUser, username=request.data['username'])
@@ -162,12 +168,3 @@ def plangenerate(request):
             return Response({"generated" : serializerGeneratedPlan.data})
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-@api_view(['POST'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def plan_deleted(request):
-    if request.method == 'POST':
-        plan = GeneratePlan.objects.get(id=request.data['id'])
-        plan.delete()
-        return Response({'delete': "Success"})
