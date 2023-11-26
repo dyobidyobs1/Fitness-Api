@@ -162,7 +162,10 @@ def plangenerate(request):
             return Response({"generated" : serializerGeneratedPlan.data})
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def plan_delete(request, pk):
     plan = GeneratePlan.objects.get(id=pk)
     plan.delete()
