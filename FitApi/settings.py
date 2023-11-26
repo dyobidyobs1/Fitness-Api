@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--j@9-c4_3vnf-9u60-9)2q5@!t+k&flau=0ro#p9f=s#2usa-f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['physicalatk-d0e0fc6e9e7d.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['physicalatk-d0e0fc6e9e7d.herokuapp.com', '127.0.0.1', '9e6d-136-158-11-16.ngrok-free.app']
 
 
 # Application definition
@@ -143,8 +143,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-CSRF_TRUSTED_ORIGINS = ['https://physicalatk-d0e0fc6e9e7d.herokuapp.com']
-CORS_ORIGIN_WHITELIST = ['https://physicalatk-d0e0fc6e9e7d.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://physicalatk-d0e0fc6e9e7d.herokuapp.com', 'https://9e6d-136-158-11-16.ngrok-free.app']
+CORS_ORIGIN_WHITELIST = ['https://physicalatk-d0e0fc6e9e7d.herokuapp.com', 'https://9e6d-136-158-11-16.ngrok-free.app']
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -21,7 +21,7 @@ def login(request):
          return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
     token, created = Token.objects.get_or_create(user=user)
     serializerUser = UserSerializer(instance=user)
-    stats = StatsSerializer(Stats.objects.get(user=user))
+    stats = StatsSerializer(Stats.objects.get_or_create(user=user))
     return Response({'token': token.key, 'user': serializerUser.data, 'stats': stats.data})
 
 @api_view(['POST'])
@@ -142,3 +142,26 @@ def leaderboards(request):
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
+
+@api_view(['POST', 'GET', 'DELETE'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def plangenerate(request):
+    if request.method == 'POST':
+        serializerGeneratedPlan = GenerarePlanSerializer(data=request.data)
+        print(serializerGeneratedPlan)
+        if serializerGeneratedPlan.is_valid():
+            done_excercise = serializerGeneratedPlan.save(user=request.user)
+            return Response({'generated': serializerGeneratedPlan.data})
+        else:
+            return Response(serializerGeneratedPlan.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        generate = GeneratePlan.objects.get(id=request.data['id'])
+        generate.delete()
+        return Response({'message': 'Plan is Deleted Successfully'})
+    else:
+        serializerGeneratedPlan =  GenerarePlanSerializer(GeneratePlan.objects.filter(user=request.user).order_by('-date_created'), many=True)
+        if serializerGeneratedPlan:
+            return Response({"history" : serializerGeneratedPlan.data})
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
