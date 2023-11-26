@@ -143,7 +143,7 @@ def leaderboards(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
     
 
-@api_view(['POST', 'GET', 'DELETE'])
+@api_view(['POST', 'GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def plangenerate(request, pk):
@@ -155,15 +155,13 @@ def plangenerate(request, pk):
             return Response({'generated': serializerGeneratedPlan.data})
         else:
             return Response(serializerGeneratedPlan.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
-        print("Print")
-        print(request.data)
-        generate = GeneratePlan.objects.get(id=pk)
-        generate.delete()
-        return Response({'message': 'Plan is Deleted Successfully'})
     else:
         serializerGeneratedPlan =  GenerarePlanSerializer(GeneratePlan.objects.filter(user=request.user).order_by('-date_created'), many=True)
         if serializerGeneratedPlan:
             return Response({"generated" : serializerGeneratedPlan.data})
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+def plan_delete(request, pk):
+    plan = GeneratePlan.objects.get(id=pk)
+    plan.delete()
