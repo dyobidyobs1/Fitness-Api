@@ -14,9 +14,9 @@ from .models import *
 from random import randint
 
 
-@api_view(['DELETE'])
-def plan_delete(request, pk):
-    plan = GeneratePlan.objects.get(id=pk)
+@api_view(['POST'])
+def plan_delete(request):
+    plan = GeneratePlan.objects.get(id=request.data['id'])
     plan.delete()
     return Response({'delete': "Success"})
 
