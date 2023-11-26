@@ -77,3 +77,16 @@ class History(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.exercise_name} - {self.date_created}"
+    
+class GeneratePlan(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    exercise_name = models.CharField(max_length=200, null=True, blank=True)
+    exercise_type = models.CharField(max_length=200, null=True, blank=True)
+    muscle_group = models.CharField(max_length=200, null=True, blank=True)
+    difficulty = models.CharField(max_length=200, null=True, blank=True)
+    equipment = models.CharField(max_length=200, null=True, blank=True)
+    instructions = models.CharField(max_length=200, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Plan - {self.exercise_name} - {self.date_created}"
