@@ -167,6 +167,7 @@ def plangenerate(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def plan_delete(request):
-    plan = GeneratePlan.objects.get(id=request.data['id'])
-    plan.delete()
-    return Response({'delete': "Success"})
+    if request.method == 'POST':
+        plan = GeneratePlan.objects.get(id=request.data['id'])
+        plan.delete()
+        return Response({'delete': "Success"})
