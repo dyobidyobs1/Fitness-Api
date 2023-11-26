@@ -146,7 +146,7 @@ def leaderboards(request):
 @api_view(['POST', 'GET', 'DELETE'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def plangenerate(request):
+def plangenerate(request, pk):
     if request.method == 'POST':
         serializerGeneratedPlan = GenerarePlanSerializer(data=request.data)
         print(serializerGeneratedPlan)
@@ -157,7 +157,8 @@ def plangenerate(request):
             return Response(serializerGeneratedPlan.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         print("Print")
-        generate = GeneratePlan.objects.get(id=request.data)
+        print(request.data)
+        generate = GeneratePlan.objects.get(id=pk)
         generate.delete()
         return Response({'message': 'Plan is Deleted Successfully'})
     else:
