@@ -162,6 +162,6 @@ def plangenerate(request):
     else:
         serializerGeneratedPlan =  GenerarePlanSerializer(GeneratePlan.objects.filter(user=request.user).order_by('-date_created'), many=True)
         if serializerGeneratedPlan:
-            return Response({"history" : serializerGeneratedPlan.data})
+            return Response({"generated" : serializerGeneratedPlan.data})
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
