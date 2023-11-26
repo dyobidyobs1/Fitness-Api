@@ -163,7 +163,7 @@ def plangenerate(request):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-@api_view(["DELETE"])
+@api_view(['DELETE'])
 def plan_delete(request, pk):
     plan = GeneratePlan.objects.get(id=pk)
     plan.delete()
