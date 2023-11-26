@@ -147,7 +147,7 @@ def leaderboards(request):
 @api_view(['POST', 'GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def plangenerate(request, pk):
+def plangenerate(request):
     if request.method == 'POST':
         serializerGeneratedPlan = GenerarePlanSerializer(data=request.data)
         print(serializerGeneratedPlan)
