@@ -12,8 +12,9 @@ urlpatterns = [
     re_path('get_exercise', views.exercise),
     re_path('profile', views.profile),
     re_path('history', views.history),
-    re_path('leaderboards', views.leaderboards),
-    re_path('plan/<str:pk>', views.plangenerate),
+    re_path('leaderboards', views.lplangenerate),
+    re_path('plan', views.plangenerate),
+    re_path('plan_delete/<str:pk>', views.plan_delete),
 
     re_path('stats', views.stats),
     re_path('schema', SpectacularAPIView.as_view(), name='schema'),
