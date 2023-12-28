@@ -22,13 +22,20 @@ def plan_delete(request, pk):
 
 
 @api_view(['POST'])
+def plan_delete(request):
+    plan = GeneratePlan.objects.get(id=request.data['id'])
+    plan.delete()
+    return Response({'delete': "Success"})
+
+@api_view(['POST'])
 def login(request):
     user = get_object_or_404(CustomUser, username=request.data['username'])
     if not user.check_password(request.data['password']):
          return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
     token, created = Token.objects.get_or_create(user=user)
     serializerUser = UserSerializer(instance=user)
-    stats = StatsSerializer(Stats.objects.get_or_create(user=user))
+    stats, created = Stats.objects.get_or_create(user=user)
+    stats = StatsSerializer(stats)
     return Response({'token': token.key, 'user': serializerUser.data, 'stats': stats.data})
 
 @api_view(['POST'])
@@ -168,4 +175,3 @@ def plangenerate(request):
             return Response({"generated" : serializerGeneratedPlan.data})
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
