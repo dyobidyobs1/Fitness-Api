@@ -36,6 +36,7 @@ class Exercise(models.Model):
     reps = models.IntegerField(null=True, blank=True)
     description = models.TextField()
     image = models.ImageField(upload_to='uploads/excercise', blank=True, null=True)
+    gif = models.ImageField(upload_to='uploads/excercise/gif', blank=True, null=True)
 
 
     def __str__(self):
