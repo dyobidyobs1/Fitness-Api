@@ -32,7 +32,8 @@ def plan_delete(request):
 def login(request):
     user = get_object_or_404(CustomUser, username=request.data['username'])
     print(user.is_verified)
-    if not user.check_password(request.data['password']):
+    print(user.check_password(request.data['password']))
+    if not user.check_password(request.data['password']) and user.is_verified == False:
          return Resopnse({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
     token, created = Token.objects.get_or_create(user=user)
     serializerUser = UserSerializer(instance=user)
