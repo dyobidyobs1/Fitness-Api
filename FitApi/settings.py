@@ -91,7 +91,7 @@ DATABASES = {
 
 import dj_database_url
 
-DATABASES['default'] = dj_database_url.parse("postgres://xgthgyekbezwke:7f5c049111f7344a7ecf9cf5759a84922c1b35e41e8b61844919298249dda195@ec2-52-206-36-147.compute-1.amazonaws.com:5432/d712anrbvcu76f", conn_max_age=600)
+DATABASES['default'] = dj_database_url.parse("postgres://odrxgcrkjofutp:54697e767e6a1691c4cd32b11b8f455191ef54ef2402c19dd190afef3962f80e@ec2-3-217-146-37.compute-1.amazonaws.com:5432/d5jjf16g0fgooq", conn_max_age=600)
 
 
 
