@@ -20,7 +20,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'password', 'email', 'gender', 'birth_date', 'weight', 'height', 'image',]
+        fields = ['id', 'username', 'password', 'email', 'gender', 'birth_date', 'weight', 'height', 'image']
 
 class ExcerciseSerializer(serializers.ModelSerializer):
     class Meta:
