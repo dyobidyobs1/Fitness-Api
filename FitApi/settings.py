@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--j@9-c4_3vnf-9u60-9)2q5@!t+k&flau=0ro#p9f=s#2usa-f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['physicalatk-d0e0fc6e9e7d.herokuapp.com', '127.0.0.1', '9e6d-136-158-11-16.ngrok-free.app']
+ALLOWED_HOSTS = ['physicalatk-d0e0fc6e9e7d.herokuapp.com', '127.0.0.1', '9e6d-136-158-11-16.ngrok-free.app', 'psychic-space-barnacle-5gv54qp6jqr3jrg-8000.app.github.dev', 'localhost']
 
 
 # Application definition
@@ -144,8 +144,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-CSRF_TRUSTED_ORIGINS = ['https://physicalatk-d0e0fc6e9e7d.herokuapp.com', 'https://9e6d-136-158-11-16.ngrok-free.app']
-CORS_ORIGIN_WHITELIST = ['https://physicalatk-d0e0fc6e9e7d.herokuapp.com', 'https://9e6d-136-158-11-16.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://physicalatk-d0e0fc6e9e7d.herokuapp.com', 'https://9e6d-136-158-11-16.ngrok-free.app', 'https://psychic-space-barnacle-5gv54qp6jqr3jrg-8000.app.github.dev']
+CORS_ORIGIN_WHITELIST = ['https://physicalatk-d0e0fc6e9e7d.herokuapp.com', 'https://9e6d-136-158-11-16.ngrok-free.app', 'https://psychic-space-barnacle-5gv54qp6jqr3jrg-8000.app.github.dev']
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -167,4 +167,14 @@ SPECTACTULAR_SETTINGS = {
 
 LOGIN_REDIRECT_URL = '/'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'dict2.1.teamone@gmail.com'
+EMAIL_HOST_PASSWORD = 'artndyuvmmgofmmo'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+
+DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'

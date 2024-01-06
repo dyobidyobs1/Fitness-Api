@@ -10,6 +10,7 @@ from rest_framework.authtoken.models import Token
 
 from .serializers import *
 from .models import *
+from .utils import *
 
 from random import randint
 
@@ -41,13 +42,16 @@ def login(request):
 @api_view(['POST'])
 def register(request):
     serializerUser = UserSerializer(data=request.data)
+    random_id = create_rand_id()
     print(serializerUser)
     if serializerUser.is_valid():
-        serializerUser.save()
+        serializerUser = serializerUser.save()
         user = CustomUser.objects.get(username=request.data['username'])
         user.set_password(request.data['password'])
+        user.verification_token = random_id
         user.save()
         token = Token.objects.create(user=user)
+        send_email_token(request.data['email'], random_id)
         return Response({'token': token.key, 'user': serializerUser.data})
     return Response(serializerUser.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,13 +66,14 @@ def test_token(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def exercise(request):
-    serializerExercise =  ExcerciseSerializer(Exercise.objects.order_by('?')[:3], many=True)
+    serializerExercise =  ExcerciseSerializer(Exercise.objects.order_by('?')[:7], many=True)
     # for i in range(0, 10):
     #     if not serializerExercise.data in random_excercise:
     #         random_excercise.append(serializerExercise.data)
     #     if len(random_excercise) == 3:
     #         continue
     if serializerExercise:
+        print(serializerExercise.data)
         return Response({"exercise" : serializerExercise.data})
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -175,3 +180,15 @@ def plangenerate(request):
             return Response({"generated" : serializerGeneratedPlan.data})
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+# Verify Code
+@api_view(['POST'])
+def verify(request):
+    try:
+        userDetails = CustomUser.objects.get(verification_token=request.data['verify_code'])
+        userDetails.is_verified = True
+        userDetails.save()
+        return Response({'status': "true"}) 
+    except Exception as e:
+        return Response({'status': "false"})

@@ -10,7 +10,7 @@ from django.db import models
 
 def create_rand_id():
         from django.utils.crypto import get_random_string
-        return get_random_string(length=13, 
+        return get_random_string(length=4, 
             allowed_chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 
 
@@ -25,6 +25,10 @@ class CustomUser(AbstractUser):
     weight = models.IntegerField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
     image = models.ImageField(upload_to='uploads/profile', blank=True, null=True)
+    verification_token = models.CharField(
+        max_length=100, null=True, blank=True, editable=False
+    )
+    is_verified = models.BooleanField(default=False)
 
 
 
