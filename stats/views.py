@@ -45,8 +45,9 @@ def register(request):
     random_id = create_rand_id()
     print(serializerUser)
     if serializerUser.is_valid():
-        serializerUser = serializerUser.save()
+        serializerUser.save()
         user = CustomUser.objects.get(username=request.data['username'])
+        print("user", user)
         user.set_password(request.data['password'])
         user.verification_token = random_id
         user.save()
