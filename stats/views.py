@@ -33,8 +33,10 @@ def login(request):
     user = get_object_or_404(CustomUser, username=request.data['username'])
     print(user.is_verified)
     print(user.check_password(request.data['password']))
-    if not user.check_password(request.data['password']) and not user.is_verified:
+    if not user.check_password(request.data['password']):
          return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+    if not user.is_verified:
+        return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
     token, created = Token.objects.get_or_create(user=user)
     serializerUser = UserSerializer(instance=user)
     stats, created = Stats.objects.get_or_create(user=user)
